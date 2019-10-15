@@ -1,20 +1,31 @@
+# /usr/bin/env python
+# pylint: disable=invalid-name
 """
 A code port of the 15th pentagonal tiling
 
 http://jsfiddle.net/jolumij/1qh7zav9/
 """
-# /usr/bin/env python
-import numpy as np
-import matplotlib.pyplot as plt
 import itertools
+import matplotlib.pyplot as plt
+import matplotlib.collections
+import numpy as np
 
-from matplotlib.collections import PolyCollection
+import matplotlib.pyplot as plt
+
+from matplotlib.backends.backend_agg import FigureCanvasAgg
+plt.rcParams["figure.figsize"] = (40,40)
 
 H = np.sqrt(3)
 TRANS = np.array([[9 * H + 12, 3], [H + 1, H + 3]])
 
+def construct_supercell():
+    """
+    Construct the 12-part supercell of the type-15 pentagonal tiling.
 
-def construct_unit_cell():
+    Returns:
+        np.array
+            Type-15 pentagonal tiling supercell.
+    """
     x_m = np.array([0, 1, 2, 2, 2, 3, 3, 3, 5, 5, 2, 3])
     x_b = np.array([0, 0, 0, 1, 2, 2, 4, 6, 6, 6, 3, 5])
     y_m = np.array([0, 0, 0, 1, 0, 0, 0, 0, 0, 0, -1, -1])
@@ -30,6 +41,19 @@ def construct_unit_cell():
 
 
 def half_cell(x, y):
+    """
+    Construct half of the type-15 pentagonal tiling supercell.
+
+    Arguments:
+        x: np.array
+           Pre-calculated constants for cell constrcution.
+        y: np.array
+           Pre-calculated constants for cell constrcution.
+
+    Returns:
+        np.array
+            Half of the type-15 pentagonal tiling supercell.
+    """
     return np.array(
         [
             [x[0], x[1], y[3], y[2], y[1]],
@@ -43,8 +67,18 @@ def half_cell(x, y):
 
 
 def render(polygons):
+    """
+    Draw a collection of polygons.
+
+    Arguments:
+        polygons: np.array
+            A list of polygons with vertices arranged clockwise.
+    """
     _, ax = plt.subplots()
-    poly_collection = PolyCollection(polygons, color="white", edgecolor="black")
+
+    poly_collection = matplotlib.collections.PolyCollection(
+        polygons, color="white", edgecolor="black"
+    )
 
     ax.add_collection(poly_collection)
     ax.autoscale_view()
@@ -52,16 +86,79 @@ def render(polygons):
 
     plt.show()
 
+def whirl_plot(polygon, step=1e-1):
+    for i in range(40):
+        to_plot = np.vstack([polygon, polygon[0]])
+        plt.plot(to_plot[:, 0], to_plot[:, 1], c='black', linewidth=0.1)
+
+        diff = polygon - np.roll(polygon, 1, axis=0)
+        norm_velocity = diff/np.linalg.norm(diff, axis=1, keepdims=True)
+
+        polygon -= step * norm_velocity
 
 def main():
-    unit_cell = construct_unit_cell()
-    translations = [np.dot(x, TRANS) for x in itertools.product(range(2), range(6))]
+    """
+    Main function to interface with CLI.
+    """
+    mesh = list(itertools.product(range(2), range(6)))
+    translations = np.dot(mesh, TRANS)
 
-    tiling = np.array([trans + unit_cell for trans in translations])
-    polygons = tiling.reshape(-1, 5, 2)
+
+    supercell = construct_supercell()
+
+    polygons = np.vstack([trans + supercell for trans in translations])
+
+    for polygon in polygons:
+        whirl_plot(polygon)
+
+    plt.gca().set_aspect("equal")
+
+    plt.gca().axis("off")
+
+    canvas = FigureCanvasAgg(plt.gcf())
+    canvas.draw()
+
+    stream, (width, height) = canvas.print_to_buffer()
+    img = np.fromstring(stream, np.uint8).reshape((height, width, 4))
+
+    plt.imsave("images/whirl-15.png", _trim_border(img))
+
+    # plt.savefig('whirl', bbox_inches='tight', pad=0)
+    raise SystemExit
 
     render(polygons)
 
+def _trim_border(img):
+    """
+    Trims white space border of a numpy image.
+    Arguments:
+        img: np.array
+            Numpy image.
+    Returns:
+        img: np.array
+            Numpy image with no white border space.
+    """
+    for i in range(img.shape[0]):
+        if np.any(img[i, :, :] != 255):
+            img = img[i:, :, :]
+            break
+
+    for i in range(img.shape[0] - 1, 0, -1):
+        if np.any(img[i, :, :] != 255):
+            img = img[: i + 1, :, :]
+            break
+
+    for i in range(img.shape[1]):
+        if np.any(img[:, i, :] != 255):
+            img = img[:, i:, :]
+            break
+
+    for i in range(img.shape[1] - 1, 0, -1):
+        if np.any(img[:, i, :] != 255):
+            img = img[:, : i + 1, :]
+            break
+
+    return img
 
 if __name__ == "__main__":
     main()
