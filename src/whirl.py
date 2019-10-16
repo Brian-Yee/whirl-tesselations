@@ -10,7 +10,7 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg
 plt.rcParams["figure.figsize"] = (40, 40)
 
 
-def whirl_plot(polygons, iterations, step=1e-1, **kwargs):
+def whirl_plot(polygons, iterations, step, fpath, **kwargs):
     """
     Create a modified whirl plot for an arbitrary polygon.
 
@@ -50,7 +50,7 @@ def whirl_plot(polygons, iterations, step=1e-1, **kwargs):
     stream, (width, height) = canvas.print_to_buffer()
     img = np.fromstring(stream, np.uint8).reshape((height, width, 4))
 
-    plt.imsave("images/whirl-15.png", _trim_border(img))
+    plt.imsave(fpath, _trim_border(img))
 
 
 def _trim_border(img):
