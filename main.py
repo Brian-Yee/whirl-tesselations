@@ -38,48 +38,48 @@ def main(width, height, tile_type, fpath, iterations, step):
 
 if __name__ == "__main__":
     # fmt: off
-    parser = argparse.ArgumentParser(
+    PARSER = argparse.ArgumentParser(
         description='Create tesslations of pentagonal whirls.'
     )
 
-    parser.add_argument(
+    PARSER.add_argument(
         'W',
         type=int,
         help='Width of tesselations in tiles.'
     )
 
-    parser.add_argument(
+    PARSER.add_argument(
         'H',
         type=int,
         help='Height of tesselations in tiles.'
     )
 
-    parser.add_argument(
+    PARSER.add_argument(
         'polygon',
         type=str,
         help='Type of pentagon'
     )
 
-    parser.add_argument(
+    PARSER.add_argument(
         'fpath',
         type=str,
         help='Type of pentagon'
     )
 
-    parser.add_argument(
+    PARSER.add_argument(
         'whirl_iterations',
         type=int,
         help='Number of iterations to whirl a polygon inwards.'
     )
 
-    parser.add_argument(
+    PARSER.add_argument(
         'whirl_step',
         type=float,
         help='Step size for each whirl.'
     )
     # fmt:on
 
-    ARGS = parser.parse_args()
+    ARGS = PARSER.parse_args()
 
     main(
         ARGS.W, ARGS.H, ARGS.polygon, ARGS.fpath, ARGS.whirl_iterations, ARGS.whirl_step
