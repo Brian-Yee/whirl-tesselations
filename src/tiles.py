@@ -6,11 +6,65 @@ Functions dedicated to constructing pentagonal tiling tiles.
 import numpy as np
 
 
+def square():
+    """
+    Simple square tile with basis.
+
+    Returns:
+        basis: np.array
+            Unit Cartesian basis.
+        np.array
+            A square tile.
+    """
+    basis = np.array([[1, 0], [0, 1]], dtype=np.float32)
+    tile = np.array([[[0, 0], [0, 1], [1, 1], [1, 0]]], dtype=np.float32)
+
+    return basis, tile
+
+
+def hexagon():
+    """
+    Simple hexagon tile with basis.
+
+    Returns:
+        basis: np.array
+            Corresponding basis vectors for hexagon tile.
+        np.array
+            A hexagon tile.
+    """
+    basis = np.array([[1.5, np.sqrt(3) / 2], [1.5, -np.sqrt(3) / 2]])
+    tile = np.array(
+        [[[np.cos(2 * np.pi * n / 6), np.sin(2 * np.pi * n / 6)] for n in range(6)]]
+    )
+
+    return basis, tile
+
+
+def triangle():
+    """
+    Simple triangle tile with basis.
+
+    Returns:
+        basis:
+            Corresponding basis vectors for triangle tile.
+        np.array
+            A triangle tile.
+    """
+    basis = np.array([[2, 0], [1, np.sqrt(3)]])
+    tile = np.array(
+        [[[0, 0], [2, 0], [1, np.sqrt(3)]], [[2, 0], [1, np.sqrt(3)], [3, np.sqrt(3)]]]
+    )
+
+    return basis, tile
+
+
 def tile_15():
     """
     Construct the 12-part supercell of the type-15 pentagonal tiling.
 
     Returns:
+        basis: np.array
+            Corresponding basis for supercell.
         np.array
             Type-15 pentagonal tiling supercell.
     """
@@ -67,6 +121,8 @@ def tile_14():
     Construct the supercell of the type-14 pentagonal tiling.
 
     Returns:
+        basis: np.array
+            Corresponding basis for supercell.
         np.array
             Type-15 pentagonal tiling supercell.
     """

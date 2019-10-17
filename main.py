@@ -15,10 +15,16 @@ def main(width, height, tile_type, fpath, iterations, step):
     """
     Main function to interface with CLI.
     """
-    if tile_type == 15:
+    if tile_type == "pentagon-15":
         basis, supercell = src.tiles.tile_15()
-    elif tile_type == 14:
+    elif tile_type == "pentagon-14":
         basis, supercell = src.tiles.tile_14()
+    elif tile_type == "square":
+        basis, supercell = src.tiles.square()
+    elif tile_type == "hexagon":
+        basis, supercell = src.tiles.hexagon()
+    elif tile_type == "triangle":
+        basis, supercell = src.tiles.triangle()
     else:
         raise ValueError("Unknown pentagonal tiling.")
 
@@ -49,8 +55,8 @@ if __name__ == "__main__":
     )
 
     parser.add_argument(
-        'pentagon_type',
-        type=int,
+        'polygon',
+        type=str,
         help='Type of pentagon'
     )
 
@@ -76,10 +82,5 @@ if __name__ == "__main__":
     ARGS = parser.parse_args()
 
     main(
-        ARGS.W,
-        ARGS.H,
-        ARGS.pentagon_type,
-        ARGS.fpath,
-        ARGS.whirl_iterations,
-        ARGS.whirl_step,
+        ARGS.W, ARGS.H, ARGS.polygon, ARGS.fpath, ARGS.whirl_iterations, ARGS.whirl_step
     )
