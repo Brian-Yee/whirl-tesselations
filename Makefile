@@ -1,8 +1,11 @@
 .PHONY: help
 help:
-	@echo "help       Display this message."
-	@echo "tile-15    Create a pentagonal-15 tiling of plane."
-	@echo "tile-14    Create a pentagonal-14 tiling of plane."
+	@echo "help        Display this message."
+	@echo "tile-15     Create a pentagonal-15 tiling of the plane."
+	@echo "tile-14     Create a pentagonal-14 tiling of the plane."
+	@echo "square      Create a square tiling of the plane."
+	@echo "triangle    Create a triangular tiling of the plane."
+	@echo "hexagon     Create a hexagonal tiling of the plane."
 
 .PHONY: pentagon-15
 pentagon-15:
