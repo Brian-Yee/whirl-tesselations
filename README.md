@@ -7,25 +7,25 @@ the following.
 
 Square
 ------
-[![Square whirl tiling of plane](../images/square.png)](../images/square.png)
+[![Square whirl tiling of plane](images/square.png)](images/square.png)
 
 Hexagon (with Holes!)
 ---------------------
-[![Hexagon partial whirl tiling of plane](../images/hexagon.png)](../images/hexagon.png)
+[![Hexagon partial whirl tiling of plane](images/hexagon.png)](images/hexagon.png)
 
 Triangle
 --------
-[![Triangle whirl tiling of plane](../images/triangle.png)](../images/triangle.png)
+[![Triangle whirl tiling of plane](images/triangle.png)](images/triangle.png)
 
 Pentagon Type 14
 ----------------
 
-[![Type-14 whirl tiling of plane](../images/whirl-14.png)](../images/whirl-14.png)
+[![Type-14 whirl tiling of plane](images/whirl-14.png)](images/whirl-14.png)
 
 Pentagon Type 15
 ----------------
 
-[![Type-15 whirl tiling of plane](../images/whirl-15.png)](../images/whirl-15.png)
+[![Type-15 whirl tiling of plane](images/whirl-15.png)](images/whirl-15.png)
 
 Usage
 =====
